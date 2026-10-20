@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f8f6">
+  <meta name="description" content="Create and review a shipping bill with clear, validated shipment details.">
+  <title>Harbor — New shipping bill</title>
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="app/main.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#main" aria-label="Harbor home"><span class="brand-mark">H</span><span>harbor<span class="brand-period">.</span></span></a>
+    <nav aria-label="Breadcrumb"><a href="#main">Shipments</a><span aria-hidden="true">/</span><strong>New shipping bill</strong></nav>
+    <div class="profile"><span class="avatar" aria-hidden="true">AM</span><span><strong>Alex Morgan</strong><small>Operations</small></span></div>
+  </header>
+  <main id="main">
+    <div class="page-intro"><div><p class="eyebrow">EXPORTS <span>·</span> DRAFT</p><h1>Create shipping bill</h1><p class="intro-copy">Add the shipment details below. Your changes are saved as a draft.</p></div><button class="button button-quiet" id="resetButton" type="button">Reset form</button></div>
+    <div id="loadBanner" class="load-banner" role="status" hidden></div>
+    <form id="shippingForm" novalidate>
+      <div class="form-layout">
+        <div class="form-main">
+          <section class="card" aria-labelledby="shipmentHeading">
+            <div class="section-title"><span class="section-icon">01</span><div><h2 id="shipmentHeading">Shipment details</h2><p>Core information for this export.</p></div></div>
+            <div class="fields-grid">
+              <label class="field"><span>Exporter <i>*</i></span><select id="exporter" name="exporter" required><option value="">Select exporter</option></select><small class="field-error" data-error="exporter"></small></label>
+              <label class="field"><span>Exporter IEC <i>*</i></span><input id="iec" name="iec" required inputmode="numeric" maxlength="10" placeholder="e.g. 0514038291"><small class="field-hint">10-digit Importer Exporter Code</small><small class="field-error" data-error="iec"></small></label>
+              <label class="field"><span>Consignee <i>*</i></span><input id="consignee" name="consignee" required placeholder="Company or recipient name"><small class="field-error" data-error="consignee"></small></label>
+              <label class="field"><span>Country of destination <i>*</i></span><select id="destination" name="destination" required><option value="">Select destination</option></select><small class="field-error" data-error="destination"></small></label>
+              <label class="field"><span>Port of loading <i>*</i></span><select id="port" name="port" required><option value="">Select port</option></select><small class="field-error" data-error="port"></small></label>
+              <label class="field"><span>Mode of transport <i>*</i></span><select id="transport" name="transport" required><option value="">Select mode</option></select><small class="field-error" data-error="transport"></small></label>
+              <label class="field"><span>Invoice number <i>*</i></span><input id="invoice" name="invoice" required placeholder="e.g. INV-2025-0142"><small class="field-error" data-error="invoice"></small></label>
+              <label class="field"><span>Invoice date <i>*</i></span><input id="invoiceDate" name="invoiceDate" type="date" required><small class="field-error" data-error="invoiceDate"></small></label>
+            </div>
+          </section>
+          <section class="card items-card" aria-labelledby="itemsHeading">
+            <div class="section-title items-heading"><span class="section-icon">02</span><div><h2 id="itemsHeading">Goods &amp; value</h2><p>List the goods included in this shipment.</p></div><button id="addItem" class="button button-add" type="button"><span aria-hidden="true">+</span> Add item</button></div>
+            <div class="table-wrap"><table><thead><tr><th scope="col">Description</th><th scope="col">HS code</th><th scope="col">Qty</th><th scope="col">Unit</th><th scope="col">Unit value (₹)</th><th scope="col"><span class="sr-only">Remove</span></th></tr></thead><tbody id="itemRows"></tbody></table></div>
+            <small class="field-error table-error" data-error="items"></small>
+            <div class="items-foot"><span id="itemCount">0 items</span><span>All values in Indian Rupees (INR)</span></div>
+          </section>
+          <section class="card notes-card" aria-labelledby="notesHeading">
+            <div class="section-title"><span class="section-icon">03</span><div><h2 id="notesHeading">Additional information</h2><p>Optional details to help your team process this shipment.</p></div></div>
+            <label class="field"><span>Notes <em>Optional</em></span><textarea id="notes" name="notes" rows="3" maxlength="500" placeholder="Add any handling instructions or context…"></textarea><small class="field-hint count-hint"><span id="notesCount">0</span> / 500</small></label>
+          </section>
+        </div>
+        <aside class="summary-card card" aria-labelledby="summaryHeading">
+          <div class="summary-top"><span class="summary-label">BILL SUMMARY</span><span class="draft-pill"><span></span> Draft</span></div>
+          <h2 id="summaryHeading">Shipment value</h2>
+          <p class="summary-copy">A live estimate based on the goods entered.</p>
+          <div class="summary-metrics"><div><span>Line items</span><strong id="summaryItems">0</strong></div><div><span>Quantities by unit</span><strong id="summaryQty">—</strong></div></div>
+          <div class="summary-total"><span>Declared value</span><strong id="summaryTotal">₹0.00</strong></div>
+          <div class="summary-tip"><span aria-hidden="true">✦</span><p>Double-check quantities and values against your commercial invoice before submitting.</p></div>
+          <button id="submitButton" class="button button-submit" type="submit">Save as draft <span aria-hidden="true">→</span></button>
+          <p class="secure-copy"><span aria-hidden="true">▣</span> Drafts are saved in this browser on this device.</p>
+          <div class="saved-drafts" aria-labelledby="savedDraftsHeading">
+            <div class="saved-drafts-heading"><h3 id="savedDraftsHeading">Saved drafts</h3><span id="draftCount">0</span></div>
+            <div id="draftList" class="draft-list"><p class="draft-empty">Your saved drafts will appear here.</p></div>
+          </div>
+        </aside>
+      </div>
+    </form>
+    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+    <div id="successDialog" class="dialog-backdrop" hidden><section class="success-dialog" role="dialog" aria-modal="true" aria-labelledby="successTitle"><span class="success-check" aria-hidden="true">✓</span><h2 id="successTitle">Draft saved</h2><p id="successMessage">Your shipping bill draft is ready for review.</p><button class="button button-submit" id="closeDialog" type="button">Continue editing</button></section></div>
+  </main>
+  <footer>Harbor exports <span>·</span> Shipping made simpler</footer>
+</body>
+</html>
